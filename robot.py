@@ -6,9 +6,10 @@ class ACMR():
     N_parts = 9
     joints = []
     Length = 0
-    a = 0.7
-    b = 0.1
+    a = 3.8
+    b = 6
     c = 0
+    w = 8
 
     def __init__(self, sim, robot_id):
         self.sim = sim
@@ -31,22 +32,32 @@ class ACMR():
         print(f"ACMR - n = {self.N_parts} - L = {self.Length}")
 
 
-    def set_movement(self, a, b, c):
+    def set_movement(self, a, b, c, w):
         self.a = a
         self.b = b
         self.c = c
+        self.w = w
 
     def calculate_angles(self, time):
         angles = []
-        a = self.a * math.sin(time)
-        b = self.b * math.sin(time)
-        c = self.c
+        a = self.a #* math.sin(time)
+        b = self.b #* math.sin(time)
+        c = self.c #* math.sin(time)
+        w = self.w
 
         for i in range(self.N_parts-1):
+            """
             sin1 = math.sin((i*b*self.Length/self.N_parts) + ((self.Length * b) / 2*(self.N_parts)))
             sin2 = math.sin((self.Length * b) / 2*(self.N_parts))
             res = (2*a*sin1*sin2) - (self.Length*c/self.N_parts)
             angles.append(res)
+            """
+
+            beta = (self.Length * b) / (self.N_parts)
+            gamma = - (self.Length*c/self.N_parts)
+            alpha = 2*a*math.sin(beta/2)
+            angle = alpha * math.sin(w*time + (i - 1)*beta) + gamma
+            angles.append(angle)
         
         return angles
     
