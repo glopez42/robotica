@@ -1,5 +1,5 @@
 import time
-from python.zmqRemoteApi import RemoteAPIClient
+from pythonAPI.zmqRemoteApi import RemoteAPIClient
 
 class Coppelia():
 
