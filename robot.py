@@ -8,7 +8,7 @@ class ACMR():
     Length = 0
     a = 3.8
     b = 6
-    c = 0
+    c = -0.001
     w = 8
 
     def __init__(self, sim, robot_id):
@@ -46,13 +46,6 @@ class ACMR():
         w = self.w
 
         for i in range(self.N_parts-1):
-            """
-            sin1 = math.sin((i*b*self.Length/self.N_parts) + ((self.Length * b) / 2*(self.N_parts)))
-            sin2 = math.sin((self.Length * b) / 2*(self.N_parts))
-            res = (2*a*sin1*sin2) - (self.Length*c/self.N_parts)
-            angles.append(res)
-            """
-
             beta = (self.Length * b) / (self.N_parts)
             gamma = - (self.Length*c/self.N_parts)
             alpha = 2*a*math.sin(beta/2)
