@@ -5,3 +5,14 @@ class Termination(ABC):
     @abstractmethod
     def isFinished(self, fitness: list) -> bool:
         pass
+
+
+class LowerThan(Termination):
+
+    def __init__(self, value, max_iter) -> None:
+        self.value = value
+        self.max_iter = max_iter
+        self.optimize_max = False
+
+    def isFinished(self, fitness: list) -> bool:
+        return min(fitness) <= self.value
