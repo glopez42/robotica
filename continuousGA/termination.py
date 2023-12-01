@@ -3,9 +3,8 @@ from abc import ABC, abstractmethod
 class Termination(ABC):
 
     @abstractmethod
-    def isFinished(self, fitness: list) -> bool:
+    def isFinished(self, fitness: list, actual_iter: int) -> bool:
         pass
-
 
 class LowerThan(Termination):
 
@@ -14,5 +13,5 @@ class LowerThan(Termination):
         self.max_iter = max_iter
         self.optimize_max = False
 
-    def isFinished(self, fitness: list) -> bool:
-        return min(fitness) <= self.value
+    def isFinished(self, fitness: list, actual_iter: int) -> bool:
+        return (min(fitness) <= self.value) or (actual_iter == self.max_iter)

@@ -7,17 +7,20 @@ from continuousGA.termination import Termination
 
 class ContinuousGA():
 
+    population = []
 
     def __init__(
             self, 
             N_pop: int, 
-            sel: Selection, 
-            cross: Crossover, 
-            mut: Mutation, 
-            fit: Fitness, 
+            selection: Selection, 
+            crossover: Crossover, 
+            mutation: Mutation, 
+            fitness: Fitness, 
             termination: Termination, 
             genes: dict, 
-            optimize_max: bool = True
+            optimize_max: bool,
+            selection_rate: float,
+            mutation_rate: float
         ) -> None:
         
         # create first population, each row of the population matrix will represent an individual
@@ -33,10 +36,10 @@ class ContinuousGA():
             self.population.append(individual)
 
         # GA operators
-        self.SelectionOperator = sel
-        self.CrossoverOperator = cross
-        self.MutationOperator = mut
-        self.FitnessOperator = fit
+        self.SelectionOperator = selection
+        self.CrossoverOperator = crossover
+        self.MutationOperator = mutation
+        self.FitnessOperator = fitness
         self.TerminationOperator = termination
 
         # save the limits of each gene
@@ -44,6 +47,9 @@ class ContinuousGA():
 
         # set optimization mode: max/min
         self.optimize_max = optimize_max
+
+        self.selection_rate = selection_rate
+        self.mutation_rate = mutation_rate
 
     def print_population(self):
         n = 1
@@ -57,13 +63,24 @@ class ContinuousGA():
     def run(self):
         
         actualFitness = self.FitnessOperator.fit(self.population)
-        while not self.TerminationOperator.isFinished(actualFitness):
-            """
-            self.SelectionOperator.performSelection(self.population, actualFitness, self.optimize_max)
-            self.CrossoverOperator.performCrossover(self.population)
-            self.MutationOperator.performMutation(self.population)
-            """
+        print(actualFitness)
+        iter = 1
+        while not self.TerminationOperator.isFinished(actualFitness, iter):
+            print(f"***** GA - iter: {iter} *****")
+            # Selection
+            new_population = self.SelectionOperator.performSelection(self.population, actualFitness, self.optimize_max, self.selection_rate)
+
+            # Crossover
+            new_population = self.CrossoverOperator.performCrossover(len(self.population), new_population)    
+
+            # Mutation
+            new_population = self.MutationOperator.performMutation(new_population, self.mutation_rate, self.genesLimits)
+            self.population = new_population
+
+            # Fitness
             actualFitness = self.FitnessOperator.fit(self.population)
+
+            iter = iter + 1
         
         return self.get_best_individual(actualFitness)
     
