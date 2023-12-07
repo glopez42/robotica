@@ -90,6 +90,7 @@ class ContinuousGA():
             "mutation_rate": self.mutation_rate,
             "initial_population": self.population,
             "initial_fitness": actualFitness,
+            "start_time": self.timestamp,
             "algorithm_execution": {}
         } 
 
@@ -122,7 +123,8 @@ class ContinuousGA():
             "results" : {
                 "best_individual": individual,
                 "fitness": fitness,
-            }
+            },
+            "end_time": datetime.now().strftime("%Y:%m:%dT%H:%M:%S"),
         })
         self.dump_report(report)
         
