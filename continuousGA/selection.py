@@ -12,8 +12,15 @@ class Selection(ABC):
             selection_rate: float
         ):
         pass
+    
+    @abstractmethod
+    def name(self) -> str:
+        pass
 
 class ElitistSelection(Selection):
+
+    def name(self) -> str:
+        return "Elitist Selection"
 
     def performSelection(
             self, 

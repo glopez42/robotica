@@ -8,8 +8,15 @@ class Mutation(ABC):
     def performMutation(self, population, rate, gene_limits):
         pass
 
+    @abstractmethod
+    def name(self) -> str:
+        pass
+
 
 class RemakeGeneMutation(Mutation):
+
+    def name(self) -> str:
+        return "Remake Gene Mutation"
 
     def performMutation(self, population, rate, gene_limits):
         n_genes = len(population[0])
@@ -17,8 +24,8 @@ class RemakeGeneMutation(Mutation):
         n_mutations = int(n_genes * n_individuals * rate)
 
         mutations = [ [int(random.random()*n_individuals), int(random.random()*n_genes)] for _ in range(n_mutations)]
-        print("Mutations to perform:")
-        print(mutations)
+        # print("Mutations to perform:")
+        # print(mutations)
         
         for m in mutations:
             individual = m[0]

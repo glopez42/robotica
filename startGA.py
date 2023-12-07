@@ -28,5 +28,4 @@ algorithm = ContinuousGA(
 
 print("******* Initial Population *******")
 algorithm.print_population()
-result = algorithm.run()
-print(result)
+algorithm.run()

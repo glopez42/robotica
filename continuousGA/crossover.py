@@ -8,14 +8,21 @@ class Crossover(ABC):
     def performCrossover(self, population_size, parents):
         pass
 
+    @abstractmethod
+    def name(self) -> str:
+        pass
+
+
 
 class BlendingCrossover(Crossover):
+
+    def name(self) -> str:
+        return "Blending Crossover"
 
     def recombine(self, father, mother):
         # number of genes to mix
         n_genes = len(father)
         crossover_point = math.floor(random.random() * n_genes)
-        print(crossover_point)
         beta = random.random()
         father_gene = father[crossover_point]
         mother_gene = mother[crossover_point]
@@ -50,7 +57,6 @@ class BlendingCrossover(Crossover):
         # if there is still more offspring needed
         while offspring_needed > offspring_count:
             # take random parents and generate one offspring
-            print("Extra offspring")
             mixed_parents = random.sample(parents, k=2)
             father = mixed_parents[0]
             mother = mixed_parents[1]

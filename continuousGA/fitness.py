@@ -10,6 +10,10 @@ class Fitness(ABC):
     def fit(self, population: list):
         pass
 
+    @abstractmethod
+    def name(self) -> str:
+        pass
+
 class FitnessDistance(Fitness):
 
     # simulation seconds per individual
@@ -20,6 +24,9 @@ class FitnessDistance(Fitness):
     snake = ACMR(coppelia.sim, 'ACMR')
     # goal's position, the snake should get as closer as it can
     goalPosition = coppelia.sim.getObjectPosition(coppelia.sim.getObject(f'/goal'))
+
+    def name(self) -> str:
+        return "FitnessDistance"
 
     # euclidean distance between individual and goal
     def get_euclidean_distance(self, pos):
