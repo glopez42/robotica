@@ -114,7 +114,6 @@ class ContinuousGA():
                     "fitness": actualFitness,
                 },
             })
-            self.dump_report(report)
 
             iter = iter + 1
 

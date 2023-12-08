@@ -4,7 +4,7 @@ from pythonAPI.zmqRemoteApi import RemoteAPIClient
 class Coppelia():
 
     def __init__(self):
-        print('*** connecting to coppeliasim')
+        #print('*** connecting to coppeliasim')
         client = RemoteAPIClient()
         self.sim = client.getObject('sim')
 
@@ -21,7 +21,7 @@ class Coppelia():
             time.sleep(0.1)
         # print('*** restoring environment')
         self.sim.setInt32Param(self.sim.intparam_idle_fps, self.default_idle_fps)
-        print('*** done')
+        #print('*** done')
 
     def is_running(self):
         return self.sim.getSimulationState() != self.sim.simulation_stopped

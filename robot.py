@@ -31,8 +31,8 @@ class ACMR():
         pos2 = self.sim.getObjectPosition(self.joints[1],self.joints[0])
         
         self.Length = (pos2[0]-pos1[0])*self.N_parts
-        print(f"ACMR - n={self.N_parts} - L={self.Length}")
-        print(f"Init position: x={self.startPosition[0]}, y={self.startPosition[1]}")
+        #print(f"ACMR - n={self.N_parts} - L={self.Length}")
+        #print(f"Init position: x={self.startPosition[0]}, y={self.startPosition[1]}")
 
     def get_actual_position(self):
         return self.sim.getObjectPosition(self.robotHandle)

@@ -8,8 +8,15 @@ def main(args=None):
     robot = ACMR(coppelia.sim, 'ACMR')
     coppelia.start_simulation()
 
-    for _ in range(3):
-        robot.set_movement_params([-1,2,0,4])
+    params = [
+            1.0863487702422514,
+            -6.181889363444142,
+            -0.04364371968101932,
+            -12.406393661654905
+    ] 
+
+    for _ in range(1):
+        robot.set_movement_params(params)
         start = coppelia.sim.getSimulationTime()
         t = 0
         while (t) < 20:

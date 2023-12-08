@@ -20,8 +20,6 @@ class FitnessDistance(Fitness):
     seconds = 20
     # coppelia simulation
     coppelia = Coppelia()
-    # reference to the robot
-    snake = ACMR(coppelia.sim, 'ACMR')
     # goal's position, the snake should get as closer as it can
     goalPosition = coppelia.sim.getObjectPosition(coppelia.sim.getObject(f'/goal'))
 
@@ -34,24 +32,27 @@ class FitnessDistance(Fitness):
 
     def fit(self, population: list) -> list:
         fitness = []
-        self.coppelia.start_simulation()
 
         for individual in population:
+            self.coppelia = Coppelia()
+            self.coppelia.start_simulation()
+            # reference to the robot
+            snake = ACMR(self.coppelia.sim, 'ACMR')
             # set individual parameters to the snake movement
-            self.snake.set_movement_params(individual)
+            snake.set_movement_params(individual)
             start = self.coppelia.sim.getSimulationTime()
             t = 0
             # executes simulation during the amount of time in self.seconds
             while (t) < self.seconds:
-                angles = self.snake.calculate_angles(t)
-                self.snake.set_joint_angles(angles)
+                angles = snake.calculate_angles(t)
+                snake.set_joint_angles(angles)
                 t = self.coppelia.sim.getSimulationTime() - start
 
             # calculates the distance between the goal and the snake
-            distance = self.get_euclidean_distance(self.snake.get_actual_position())
+            distance = self.get_euclidean_distance(snake.get_actual_position())
             fitness.append(distance)
-            self.snake.reset_position()
+            snake.reset_position()
+            self.coppelia.stop_simulation()
 
 
-        self.coppelia.stop_simulation()
         return fitness
