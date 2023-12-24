@@ -1,19 +1,26 @@
 
 from coppelia import Coppelia
 from robot import ACMR
+import math
 
+# euclidean distance between individual and goal
+def get_euclidean_distance(pos1, pos2):
+    return math.sqrt((pos2[0]-pos1[0])**2 + (pos2[1]-pos1[1])**2)
 
 def main(args=None):
     coppelia = Coppelia()
     robot = ACMR(coppelia.sim, 'ACMR')
     coppelia.start_simulation()
+    goalPosition = coppelia.sim.getObjectPosition(coppelia.sim.getObject(f'/goal'))
+    distance = get_euclidean_distance(goalPosition, robot.get_actual_position())
+    print(f"Initial distance to goal: {distance}")
 
     params = [
-            1.0863487702422514,
-            -6.181889363444142,
-            -0.04364371968101932,
-            -12.406393661654905
-    ] 
+            -2.57461679709753,
+            -6.009101797107075,
+            0,
+            -5.031329802798011
+    ]
 
     for _ in range(1):
         robot.set_movement_params(params)
@@ -27,8 +34,10 @@ def main(args=None):
 
             t = coppelia.sim.getSimulationTime() - start
 
+        distance = get_euclidean_distance(goalPosition, robot.get_actual_position())
+        print(f"Final distance to goal: {distance}")
         robot.reset_position()
-        
+
     coppelia.stop_simulation()
 
 if __name__ == '__main__':

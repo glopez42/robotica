@@ -10,7 +10,7 @@ genes = {
     "a": [-10, 10],
     "b": [-10, 10],
     "c": [-4, 4],
-    "w": [-20, 20]
+    "w": [-6, 6]
 }
 
 algorithm = ContinuousGA(
@@ -19,7 +19,7 @@ algorithm = ContinuousGA(
     crossover = BlendingCrossover(), # crossover operator
     mutation = RemakeGeneMutation(), # mutation operator
     fitness = FitnessDistance(), # fitness function to optimize
-    termination = LowerThan(value=10, max_iter=50), # termination criteria
+    termination = LowerThanSimulation(value=10, max_iter=50), # termination criteria
     genes = genes, # genes and their ranges
     optimize_max = False, # optimization mode: max (True) / min (False)
     selection_rate = 0.5, # selection rate to apply to the population

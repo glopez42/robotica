@@ -1,5 +1,6 @@
 import random
 import json
+import time
 from datetime import datetime
 from continuousGA.selection import Selection
 from continuousGA.crossover import Crossover
@@ -56,6 +57,9 @@ class ContinuousGA():
         # execution time stamp
         self.timestamp = datetime.now().strftime("%Y:%m:%dT%H:%M:%S")
 
+        # report with information about the execution
+        self.report = {}
+
     def print_population(self):
         n = 1
         for indv in self.population:
@@ -65,19 +69,15 @@ class ContinuousGA():
     def get_best_individual(self, actualFitness):
         best_fitness = max(actualFitness) if self.optimize_max else min(actualFitness)
         position = actualFitness.index(best_fitness)
-        return self.population[position], best_fitness
-    
-    def dump_report(self, report):
+        return [self.population[position], best_fitness]
+
+
+    def dump_report(self):
         with open(f'reports/report_{self.timestamp}.json', 'w+') as outfile:
-            json.dump(report, outfile)
-
-    def run(self):
-        
-        actualFitness = self.FitnessOperator.fit(self.population)
-        iter = 1
-
-        # generates report
-        report = {
+            json.dump(self.report, outfile)
+    
+    def create_report(self, actualFitness):
+        self.report = {
             "operators": {
                 "crossover": self.CrossoverOperator.name(),
                 "fitness": self.FitnessOperator.name(),
@@ -92,41 +92,56 @@ class ContinuousGA():
             "initial_fitness": actualFitness,
             "start_time": self.timestamp,
             "algorithm_execution": {}
-        } 
+        }
 
-        while not self.TerminationOperator.isFinished(actualFitness, iter):
+    def update_report(self,actualFitness,iter):
+        # actual iteration report including population and its fitness
+        self.report["algorithm_execution"].update({
+            iter: {
+                "population": self.population,
+                "fitness": actualFitness,
+            },
+        })
+    
+    def finish_report(self, best):
+        self.report.update({
+            "results" : {
+                "best_individual": best[0],
+                "fitness": best[1],
+            },
+            "end_time": datetime.now().strftime("%Y:%m:%dT%H:%M:%S"),
+        })
+        self.dump_report()
+
+
+    def run(self):
+        actualFitness = self.FitnessOperator.fit(self.population)
+        self.create_report(actualFitness)
+        iter = 1
+        best = self.get_best_individual(actualFitness)
+        while not self.TerminationOperator.isFinished(best, iter):
             print(f"***** GA - iter: {iter} *****")
-
+            start = time.time()
+            print(f"population len: {len(self.population)}")
             # Selection
             new_population = self.SelectionOperator.performSelection(self.population, actualFitness, self.optimize_max, self.selection_rate)
             # Crossover
-            new_population = self.CrossoverOperator.performCrossover(len(self.population), new_population)    
+            new_population = self.CrossoverOperator.performCrossover(len(self.population), new_population)
             # Mutation
             new_population = self.MutationOperator.performMutation(new_population, self.mutation_rate, self.genesLimits)
             self.population = new_population
             # Fitness
             actualFitness = self.FitnessOperator.fit(self.population)
 
-            # actual iteration report including population and its fitness
-            report["algorithm_execution"].update({
-                iter: {
-                    "population": self.population,
-                    "fitness": actualFitness,
-                },
-            })
-
+            # update values
+            best = self.get_best_individual(actualFitness)
+            self.update_report(actualFitness, iter)
+            print(f"***** End iter: {iter} in {time.time() - start} seconds *****")
             iter = iter + 1
 
-        individual, fitness = self.get_best_individual(actualFitness)
-        report.update({
-            "results" : {
-                "best_individual": individual,
-                "fitness": fitness,
-            },
-            "end_time": datetime.now().strftime("%Y:%m:%dT%H:%M:%S"),
-        })
-        self.dump_report(report)
-        
+
+
+        self.finish_report(best)
         return 
     
 

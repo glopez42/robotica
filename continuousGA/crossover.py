@@ -53,15 +53,10 @@ class BlendingCrossover(Crossover):
             new_population.append(son1)
             new_population.append(son2)
             offspring_count += 2
+            # if there is only one more son left, appends one of the previous son randomly
+            if offspring_needed - offspring_count == 1:
+                new_population.append(son1 if random.random() >= 0.5 else son2)
+                break 
 
-        # if there is still more offspring needed
-        while offspring_needed > offspring_count:
-            # take random parents and generate one offspring
-            mixed_parents = random.sample(parents, k=2)
-            father = mixed_parents[0]
-            mother = mixed_parents[1]
-            son1, son2 = self.recombine(father, mother)
-            new_population.append(son1 if random.random() >= 0.5 else son2)
-            offspring_count += 1
 
         return new_population
