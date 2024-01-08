@@ -16,10 +16,10 @@ def main(args=None):
     print(f"Initial distance to goal: {distance}")
 
     params = [
-            -2.57461679709753,
-            -6.009101797107075,
-            0,
-            -5.031329802798011
+            0.343038846947356,
+            7.59395293302817,
+            -0.017140772827689475,
+            5.928119785928505
     ]
 
     for _ in range(1):
@@ -27,7 +27,6 @@ def main(args=None):
         start = coppelia.sim.getSimulationTime()
         t = 0
         while (t) < 20:
-            print(f'Simulation time: {t} [s]')
             angles = robot.calculate_angles(t)
             for n in range(robot.N_parts-1):
                 robot.set_joint(n,angles[n])
