@@ -34,6 +34,8 @@ After modifying its parameters, it can be launched directly with:
 python startGA.py
 ```
 
+Before launching the algorithm, `CoppeliaSim` should be running and loaded with the scene provided in `/scenes`.
+
 ## Results
 
-During the algorithm execution, a JSON will be generated and stored in the folder `/reports` cointaining information about the evolution of the population, best individual, execution time, etc. In order to analyse this reports, a Jupyter Notebook is provided in the folder `/analysis`, showing different metrics and diagrams to visualize the results provided by the algorithm.
+During the algorithm execution, a JSON will be generated and stored in the folder `/reports` cointaining information about the evolution of the population, best individual, execution time, etc. In order to analyse these reports, a Jupyter Notebook is provided in the folder `/analysis`, showing different metrics and diagrams to visualize the results provided by the algorithm.
