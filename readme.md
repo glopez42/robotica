@@ -1,4 +1,4 @@
-# Robotics proyect
+# Robotics project
 
 This repository contains the implementation of a Genetic Algorithm with the objective of evolving the movement of a snake-like robot (ACM-R5). The individuals should learn how to move in a straight line.
 
