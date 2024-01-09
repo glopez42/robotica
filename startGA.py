@@ -19,11 +19,11 @@ algorithm = ContinuousGA(
     crossover = BlendingCrossover(), # crossover operator
     mutation = RemakeGeneMutation(), # mutation operator
     fitness = FitnessDistance(), # fitness function to optimize
-    termination = LowerThanSimulation(value=0.5, max_iter=50), # termination criteria
+    termination = LowerThanSimulation(value=1, max_iter=60), # termination criteria
     genes = genes, # genes and their ranges
     optimize_max = False, # optimization mode: max (True) / min (False)
     selection_rate = 0.5, # selection rate to apply to the population
-    mutation_rate = 0.05 # mutation rate to apply to the population
+    mutation_rate = 0.075 # mutation rate to apply to the population
 )
 
 print("******* Initial Population *******")

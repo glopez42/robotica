@@ -15,12 +15,12 @@ def main(args=None):
     distance = get_euclidean_distance(goalPosition, robot.get_actual_position())
     print(f"Initial distance to goal: {distance}")
 
-    params = [
-            0.343038846947356,
-            7.59395293302817,
-            -0.017140772827689475,
-            5.928119785928505
-    ]
+    a = -7.585477599088051
+    b = -5.680374581335428
+    c = 0.3437293856569447
+    w = -6.54055179469459
+
+    params = [a,b,c,w]
 
     for _ in range(1):
         robot.set_movement_params(params)

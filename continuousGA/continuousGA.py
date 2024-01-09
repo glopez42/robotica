@@ -122,7 +122,6 @@ class ContinuousGA():
         while not self.TerminationOperator.isFinished(best, iter):
             print(f"***** GA - iter: {iter} *****")
             start = time.time()
-            print(f"population len: {len(self.population)}")
             # Selection
             new_population = self.SelectionOperator.performSelection(self.population, actualFitness, self.optimize_max, self.selection_rate)
             # Crossover

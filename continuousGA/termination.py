@@ -49,6 +49,5 @@ class LowerThanSimulation(Termination):
         # if the condition is achieved, checks fitness again
         if (best_individual[1] <= self.value):
             distance = self.fitnessFunction.run_simulation(best_individual[0])
-            print("He comprobado esto: " + str(distance))
             return (distance <= self.value)
         return False
