@@ -2,6 +2,8 @@
 
 This repository contains the implementation of a Genetic Algorithm with the objective of evolving the movement of a snake-like robot (ACM-R5). The individuals should learn how to move in a straight line.
 
+![Algorithm execution](execution.gif)
+
 ## Dependencies
 
 The project has been programmed under Python 3.10 and uses the `CoppeliaSim` to perform the simulations with the ACM-R5 snake-like robot. It can be downloaded in the following [link](https://www.coppeliarobotics.com/downloads).
